@@ -1,12 +1,20 @@
 language: cpp
-
 matrix:
   include:
-    - os: linux
-      env: DEPLOY_FILE=cimgui.so
-      compiler: clang
-      script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
-    - os: osx
-      env: DEPLOY_FILE=cimgui.dylib
-      compiler: clang
-      script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
+  - os: linux
+    env: DEPLOY_FILE=libassimp.so
+    compiler: clang
+    script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
+  - os: osx
+    env: DEPLOY_FILE=libassimp.dylib
+    compiler: clang
+    script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
+
+deploy:
+  provider: releases
+  api_key:
+    secure: eYNwW0FA/BhyfkcLxduf5cuWDLPWDCjvYAdpaE4TxPmQ4HJkDa9iqpKa1A+iP4/clF5cvMCMveqnVNk7sKHdRoQX1Ar9EsvbteF8Xv8nWoT6gjhp6OgIh/a01CqwiTtCW1uH5LzdHS57GFkEWwYkQUvLf6hl1FLNnF3Lnn+FE5+BPkAwx1ujS5IXlsbBHcJEnQuhRP1WS53PkPrj+dWI7dkNGtpFYicfqLP3mrs4kzp6WbcC5/UUBCF1r4DOcdFZ0k5tmyI64q4M0JxfVqffJmw1PAZbzKKuRO4/XxzbhrAuHnD6IF5kDi4fqFuWE67KsP4SjJ+wJtzKQTM6yfLptJFl8c2Ej+w3sVVMjZbcBltcqfuaYZxZCboYiR4mOXxzwYEQcfg98iJihkwEQqu+1X3CS1SX0lcSyCubznWoLBrV4WKYC3A9eVshcU0AdoCsO3HG2cpvG7UnvkoX2qJv6qkUET5jT9+UUY/XzMsjlU9sigAuoDdF3TegdjVihHM0NtJ3NT1cfwAly5wE4kwN0BPdyCzY/z4jyKQV/2H2/xi8520i50gvbcGm+34kCcWCANaN1YBYAyZB0TmFqxHh1naI35t4ml9L/RDP5e0OTIfmHmWME8VYH6hPQ4ZjbcPSmheyWZTE9L4Lv0jT0wLeLLzNZCQyhebhkRZ7Xl/VPic=
+  skip_cleanup: true
+  file: lib/$DEPLOY_FILE
+  on:
+    tags: true
