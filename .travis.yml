@@ -1,36 +1,20 @@
 language: cpp
-
-addons:
-  apt:
-    packages:
-    - python3
-    - libtinyxml-dev
-    - freeglut3-dev
-    - libxmu-dev
-    - libxi-dev
-
-before_install:
-- echo -e "#ifndef A_R_H_INC\n#define A_R_H_INC\n#define GitVersion ${TRAVIS_JOB_ID}\n#define
-  GitBranch \"${TRAVIS_BRANCH}\"\n#endif // A_R_H_INC" > revision.h
-install:
-- if [ $TRAVIS_OS_NAME = osx ]; then brew install python3; fi
-
 matrix:
   include:
   - os: linux
-    env: DEPLOY_FILE=./bin/assimp*
-    script: ". ./.travis.sh"
+    env: DEPLOY_FILE=libassimp.so
     compiler: clang
+    script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
   - os: osx
-    env: DEPLOY_FILE=./bin/assimp*
-    script: ". ./.travis.sh"
+    env: DEPLOY_FILE=libassimp.dylib
     compiler: clang
+    script: cmake CMakeLists.txt -G 'Unix Makefiles'; make
 
 deploy:
   provider: releases
   api_key:
     secure: ghKrVIv576QVHcKPQG3hFBQJRSnMnp6iDkqKmHoxUdHGIQgCGXA9F5ZZ5g24QK/DZ8Tib16aOK90c60PFMp69ZGNWRlk9jiSvxTkVt6YZrAP+gEVK+G3BoBbm6XUM/bWIPeuoMaJNw+9lUQvIWfLSc50DAJiCCtSzQ+htu2NXnyxx+FDyXgJyunOoNDXjtMW36MPrwBtE66gKZxOX/xTDtzWb1SseWO0o1mkRTr38qkYVGxg2gQjLwOh85lco0ZDpA/nggbAtC6RGJK5sVWkvMDyKjpsZVK+fEc8+riy9HJTIDbSTStenzY8zpn5YQXqXf5Gk9ujDF1L7BwULNKTebxXsZy+5UAT2cgyhATfrta+Dj3jaG5R4ta5IlVnwHJfVZndkCjjs9L+KlcEjOdMNGeHSPG+v+sTkh04xhV8GGnNqL92QC0bDlSruqPnBgqImHM/jWC9ZRSIS+DkJFOxXIKwDtG1aWRg6Drrjr6PbdB19uIOx3d1u5/8Mid7xMrFDGkYdh5vvUb0IBoSarAwKMwQzUnDrIEFIa5wXbWGpDxBlit5v0Brbo2tuNC3QaroB+NUlSgSgFswRKlwBlj62/x+Exr5Quoirwpb6udhcSwy5DC9q1vHiO+YBRyFKJa76x1cuZ64airpt+roo65XU3KyeWJfKT/ASkU1bZoWSkY=
   skip_cleanup: true
-  file: $DEPLOY_FILE
+  file: lib/$DEPLOY_FILE
   on:
     tags: true
