@@ -33,12 +33,10 @@ build_script:
  - cmake CMakeLists.txt -G "Visual Studio %Configuration%"
  - msbuild /m /p:Configuration=Release /p:Platform="Win32" Assimp.sln
 
-after_build:
-  - 7z a assimp.7z c:\projects\assimp\bin\release\* c:\projects\assimp\lib\release\*
-
 artifacts:
-  - path: assimp.7z
+  - path: .\bin\release\assimp-vc140-mt.dll
     name: assimp_lib
+    type: File
 
 deploy:
   release: assimp-v$(appveyor_build_version)-$(PLATFORM)
