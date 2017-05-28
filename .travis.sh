@@ -7,10 +7,10 @@ if [ $ANDROID ]; then
     ant -v -Dmy.dir=${TRAVIS_BUILD_DIR} -f ${TRAVIS_BUILD_DIR}/port/jassimp/build.xml ndk-jni
 else
     generate \
-    && make \
-    && sudo make install \
-    && sudo ldconfig \
-    && (cd test/unit; ../../bin/unit) \
-    #&& (cd test/regression; chmod 755 run.py; ./run.py ../../bin/assimp; \
-	#   chmod 755 result_checker.py; ./result_checker.py)
+    && make # \
+    # && sudo make install \
+    # && sudo ldconfig \
+    # && (cd test/unit; ../../bin/unit) \
+    # #&& (cd test/regression; chmod 755 run.py; ./run.py ../../bin/assimp; \
+    #     #   chmod 755 result_checker.py; ./result_checker.py)
 fi
