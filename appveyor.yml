@@ -6,9 +6,10 @@ clone_folder: c:\projects\assimp
 
 # branches to build
 branches:
-  # whitelist
   only:
     - master
+
+skip_tags: true    
 
 platform:
     - x86
@@ -16,7 +17,7 @@ platform:
 
 configuration:
   - 14 2015
-  - 12 2013
+  #- 12 2013
   #- MinGW
   #- 10 2010 # only works for x86
 
@@ -38,3 +39,15 @@ after_build:
 artifacts:
   - path: assimp.7z
     name: assimp_lib
+
+deploy:
+  release: assimp-v$(appveyor_build_version)-$(PLATFORM)
+  description: 'Appveyor Build'
+  provider: GitHub
+  auth_token:
+    secure: XSb9h9W4f7bSSB7IQ3m3wngD2WA/hS0mq/aEDynzsVGkETjkjgq8im67ByH7FDX3
+  artifact: assimp_lib
+  draft: false
+  prerelease: false
+  on:
+    branch: master
