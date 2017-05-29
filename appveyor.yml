@@ -12,8 +12,8 @@ branches:
 skip_tags: true    
 
 platform:
-    - x86
-    - x64
+    - Win32
+    - Win64
 
 configuration:
   - 14 2015
