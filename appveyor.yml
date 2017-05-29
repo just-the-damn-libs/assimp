@@ -11,27 +11,32 @@ branches:
 
 skip_tags: true    
 
+environment:
+  matrix:
+    - VSType: "Visual Studio 14 2015"
+      ArchBits: 32
+    - VSType: "Visual Studio 14 2015 Win64"
+      ArchBits: 64     
+
 platform:
-    - x86
-    - x64
+  - Win32
+  - x64
 
-configuration:
-  - 14 2015
-  #- 12 2013
-  #- MinGW
-  #- 10 2010 # only works for x86
-
-init:
-- if "%platform%" EQU "x64" ( for %%a in (2008 2010 MinGW) do ( if "%Configuration%"=="%%a" (echo "Skipping unsupported configuration" && exit /b 1 ) ) )
-
+matrix:
+  exclude:
+    - platform: Win32
+      ArchBits: 64
+    - platform: x64
+      ArchBits: 32
+  
 install:
 # Make compiler command line tools available
 - call c:\projects\assimp\scripts\appveyor\compiler_setup.bat
 
 build_script:
  - cd c:\projects\assimp
- - cmake CMakeLists.txt -G "Visual Studio %Configuration%"
- - msbuild /m /p:Configuration=Release /p:Platform="Win32" Assimp.sln
+ - cmake CMakeLists.txt -G "%VSTYPE%"
+ - msbuild /m /p:Configuration=Release Assimp.sln
 
 artifacts:
   - path: .\bin\release\assimp-vc140-mt.dll
