@@ -11,18 +11,32 @@ branches:
 
 skip_tags: true    
 
+environment:
+  matrix:
+    - VSType: "Visual Studio 14 2015"
+      ArchBits: 32
+    - VSType: "Visual Studio 14 2015 Win64"
+      ArchBits: 64     
+
 platform:
   - Win32
   - x64
 
+matrix:
+  exclude:
+    - platform: Win32
+      ArchBits: 64
+    - platform: x64
+      ArchBits: 32
+  
 install:
 # Make compiler command line tools available
 - call c:\projects\assimp\scripts\appveyor\compiler_setup.bat
 
 build_script:
  - cd c:\projects\assimp
- - cmake CMakeLists.txt -G "Visual Studio 14 2015"
- - msbuild /m /p:Configuration=Release /p:Platform="Win32" Assimp.sln
+ - cmake CMakeLists.txt -G "%VSTYPE%"
+ - msbuild /m /p:Configuration=Release Assimp.sln
 
 artifacts:
   - path: .\bin\release\assimp-vc140-mt.dll
