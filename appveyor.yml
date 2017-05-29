@@ -12,11 +12,8 @@ branches:
 skip_tags: true    
 
 platform:
-    - Win32
-    - x64
-
-configuration:
-  - 14 2015
+  - Win32
+  - x64
 
 install:
 # Make compiler command line tools available
@@ -24,8 +21,8 @@ install:
 
 build_script:
  - cd c:\projects\assimp
- - cmake CMakeLists.txt -G "Visual Studio %Configuration%"
- - msbuild /m /p:Configuration=Release Assimp.sln
+ - cmake CMakeLists.txt -G "Visual Studio 14 2015"
+ - msbuild /m /p:Configuration=Release /p:Platform="Win32" Assimp.sln
 
 artifacts:
   - path: .\bin\release\assimp-vc140-mt.dll
